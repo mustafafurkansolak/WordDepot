@@ -11,7 +11,7 @@
 ## Kurulum ve Kullanım
 
 ```bash
-git clone https://github.com/kullaniciadi/WordDepot.git
+https://github.com/mustafafurkansolak/WordDepot.git
 cd WordDepot
 pip install -r requirements.txt
 python3 WordDepot.py
