@@ -12,6 +12,6 @@
 
 ```bash
 https://github.com/mustafafurkansolak/WordDepot.git
-cd WordDepot
+cd WordDepot/WordDepot
 pip install -r requirements.txt
 python3 WordDepot.py
