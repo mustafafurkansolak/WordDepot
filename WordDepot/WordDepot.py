@@ -380,9 +380,6 @@ tk.Label(stats_frame, textvariable=toplam_var,
 strong_pass_frame = tk.Frame(root, bg="#0f0f0f", bd=3, relief="ridge")
 strong_pass_frame.place_forget()
 
-#tk.Label(strong_pass_frame, text="GÜÇLÜ PAROLA ÜRET", fg="#39FF14",
- #        bg="#0f0f0f", font=("Courier New", 13, "bold")).pack(pady=5)
-
 style.configure("StrongPass.Treeview", font=("Courier New", 11),
                 background="#0f0f0f", fieldbackground="#0f0f0f")
 style.map("StrongPass.Treeview", background=[("selected", "#003300")])
@@ -454,3 +451,4 @@ root.bind("<Button-1>", clear_table_selection)
 if __name__ == "__main__":
     banner()
     root.mainloop()
+
