@@ -126,9 +126,16 @@ def save_to_file_table():
 # === LİNKLER ===
 def my_github():
     webbrowser.open("https://github.com/mustafafurkansolak")
-
+    
+def toggle_strong_password_panel():
+    # Eğer tablo gizliyse ilk tıklamada aç ve parola üret
+    if not strong_pass_frame.winfo_ismapped():
+        strong_pass_frame.place(x=1000, y=400, width=300, height=199)
+    # Her tıklamada yeni parola üret
+    generate_strong_password()
 # === GENERATE ===
 def generate_wordlist():
+    strong_pass_frame.place_forget()
     for tbl in [kolay_table, orta_table, zor_table]:
         for item in tbl.get_children():
             tbl.delete(item)
@@ -266,8 +273,8 @@ class RetroCRT:
 crt = RetroCRT(root, canvas, 1400, 850)
 
 # === FORM ===
-form = tk.Frame(root, bg="#0f0f0f", bd=3, relief="ridge")
-form.place(x=250, y=180, width=700, height=420)
+form = tk.Frame(root, bg="", bd=3, relief="ridge")
+form.place(x=260, y=180, width=700, height=420)
 
 for i in range(7):
     form.grid_rowconfigure(i, weight=1, pad=10)
@@ -276,16 +283,16 @@ form.grid_columnconfigure(1, weight=2, pad=10)
 
 tk.Radiobutton(form, text="Normal Mod", variable=mode_var, value="normal",
                command=toggle_mode, bg="#0f0f0f", fg="#39FF14",
-               font=("Courier New", 12, "bold")).grid(row=0, column=0, sticky="w")
+               font=("Courier New", 12, "bold"), width=20) .grid(row=0, column=0, sticky="w", padx=150)
 tk.Radiobutton(form, text="Wordlist Mod", variable=mode_var, value="wordlist",
                command=toggle_mode, bg="#0f0f0f", fg="#39FF14",
-               font=("Courier New", 12, "bold")).grid(row=0, column=1, sticky="w")
+               font=("Courier New", 12, "bold"), width=30).grid(row=0, column=1, sticky="w", pady=50)
 
 wordlist_button = tk.Button(form, text="Wordlist Yükle", command=select_wordlist,
                             bg="#0f0f0f", fg="#39FF14", font=("Courier New", 11, "bold"),
                             activebackground="#39FF14", activeforeground="black",
                             bd=2, state="disabled")
-wordlist_button.grid(row=1, column=0, columnspan=2, pady=5)
+wordlist_button.grid(row=1, column=0, columnspan=2, pady=5, sticky="e", padx=150)
 
 def field(label_text, row):
     lbl = tk.Label(form, text=label_text, fg="#39FF14", bg="#0f0f0f",
@@ -301,18 +308,21 @@ number_entry = field("Sayılar (virgülle):", 3)
 symbol_entry = field("Semboller (örn: !@.+):", 4)
 extra_entry = field("Ekstra Kelimeler:", 5)
 
-btn_frame = tk.Frame(form, bg="#0f0f0f")
+btn_frame = tk.Frame(form, bg="")
 btn_frame.grid(row=6, column=0, columnspan=2, pady=15)
 
 btn_style = {"bg": "#0f0f0f", "fg": "#39FF14", "font": ("Courier New", 11, "bold"),
              "activebackground": "#39FF14", "activeforeground": "black", "bd": 2}
 
-tk.Button(btn_frame, text="Liste Oluştur", command=generate_wordlist, width=20, **btn_style).pack(side="left", padx=10)
-tk.Button(btn_frame, text="TXT Kaydet", command=save_to_file_table, width=15, **btn_style).pack(side="left", padx=10)
-tk.Button(btn_frame, text="GITHUB", command=my_github, width=10, **btn_style).pack(side="left", padx=10)
-
+tk.Button(btn_frame, text="Liste Oluştur", command=generate_wordlist, width=20, **btn_style).pack(side="left", pady=10)
+tk.Button(btn_frame, text="TXT Kaydet", command=save_to_file_table, width=15, **btn_style).pack(side="left", pady=10)
+tk.Button(btn_frame, text="GITHUB", command=my_github, width=10, **btn_style).pack(side="left", pady=10)
+tk.Button(btn_frame, text="Parola Üret", 
+          command=toggle_strong_password_panel,
+          width=15, **btn_style).pack(side="left", pady=10)
+          
 # === TABLOLAR ===
-tab_frame = tk.Frame(root, bg="#0f0f0f")  
+tab_frame = tk.Frame(root, bg="", padx=0)  
 tab_frame.place_forget()
 
 style = ttk.Style()
@@ -339,7 +349,7 @@ zor_table.tag_configure("zor", foreground="#FF0000")
 zor_table.pack(side="left", padx=5)
 
 # === İSTATİSTİK PANELİ ===
-stats_frame = tk.Frame(root, bg="#0f0f0f", bd=3, relief="ridge")
+stats_frame = tk.Frame(root, bg="", bd=3, relief="ridge")
 stats_frame.place(x=1000, y=180, width=300, height=200)
 
 tk.Label(stats_frame, text="İSTATİSTİK", fg="#39FF14",
@@ -368,10 +378,10 @@ tk.Label(stats_frame, textvariable=toplam_var,
 
 # === GÜÇLÜ PAROLA TABLOSU ===
 strong_pass_frame = tk.Frame(root, bg="#0f0f0f", bd=3, relief="ridge")
-strong_pass_frame.place(x=1000, y=400, width=300, height=199)
+strong_pass_frame.place_forget()
 
-tk.Label(strong_pass_frame, text="GÜÇLÜ PAROLA ÜRET", fg="#39FF14",
-         bg="#0f0f0f", font=("Courier New", 13, "bold")).pack(pady=5)
+#tk.Label(strong_pass_frame, text="GÜÇLÜ PAROLA ÜRET", fg="#39FF14",
+ #        bg="#0f0f0f", font=("Courier New", 13, "bold")).pack(pady=5)
 
 style.configure("StrongPass.Treeview", font=("Courier New", 11),
                 background="#0f0f0f", fieldbackground="#0f0f0f")
@@ -379,7 +389,7 @@ style.map("StrongPass.Treeview", background=[("selected", "#003300")])
 
 # parolalar
 strong_table = ttk.Treeview(strong_pass_frame, columns=("Parola",), show="headings", height=5)
-strong_table.heading("Parola", text="Üretmek İçin Tıklayın", anchor="center")
+strong_table.heading("Parola", text="Parolalar", anchor="center")
 strong_table.column("Parola", width=280, anchor="center")
 strong_table.tag_configure("pass", foreground="#FF69B4")
 strong_table.pack(side="left", fill="both", expand=True, pady=5)
@@ -432,8 +442,6 @@ def generate_strong_password():
 # başlik altinda ki̇ butona tiklayinca parola üret
 def on_heading_click(event):
     generate_strong_password()
-
-strong_table.bind("<Button-1>", lambda e: on_heading_click(e))
 
 # parola seçi̇mi̇ni̇ temi̇zleme 
 def clear_table_selection(event):
